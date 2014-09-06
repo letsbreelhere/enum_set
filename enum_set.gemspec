@@ -9,7 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Bree Stanwyck"]
   spec.email         = ["bree@bignerdranch.com"]
   spec.summary       = %q{Allows using a single integer column as a set of booleans, with bitfield-style storage.}
-  spec.homepage      = ""
+  spec.description   = ""
+  spec.homepage      = "https://github.com/breestanwyck/enum_set"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
