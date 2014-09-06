@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 end
 
 # elsewhere.rb
-user = User.create(roles: [:super_user))
+user = User.create(roles: [:super_user])
 
 user.super_user? # => true
 user.admin? # => false
