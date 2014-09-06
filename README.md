@@ -35,6 +35,7 @@ super_users = User.super_user.all # will include `user`
 
 user.roles <<= :kaiser # Adds `:kaiser` role to `user`
 user.roles # => [:super_user, :kaiser]
+user.roles <<= :gender # raises `EnumSet::EnumError`, since `:gender` isn't a role
 ```
 
 ## Notes
