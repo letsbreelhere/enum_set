@@ -1,6 +1,8 @@
 require "enum_set/version"
 
 module EnumSet
+  EnumError = Class.new(NameError)
+
   def self.included(base)
     base.extend ClassMethods
   end
@@ -26,12 +28,18 @@ module EnumSet
         end
 
         define_method :"#{column}=" do |array|
+          new_value = send("#{column}_bitfield")
+
           array.each do |val|
-            bit = names_with_bits.find { |name,_| name == val.to_sym }.last
-            new_value = send("#{column}_bitfield") | bit
-            self[column] = new_value
+            raise EnumError.new("Unrecognized value for #{column}: #{val.inspect}") unless names.include?(val)
           end
 
+          array.each do |val|
+            bit = names_with_bits.find { |name,_| name == val.to_sym }.last
+            new_value |= bit
+          end
+
+          self[column] = new_value
           send(column)
         end
 

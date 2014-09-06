@@ -19,10 +19,20 @@ describe EnumSet do
     expect(user.roles).to eq [:super_user]
   end
 
-  it 'lets enum values be set' do
-    user.roles <<= :admin
-    user.save!
-    expect(user.reload).to be_admin
+  describe 'array setters' do
+    it 'lets enum values be set' do
+      user.roles <<= :admin
+      user.save!
+      expect(user.reload).to be_admin
+    end
+
+    context 'when a nonexistent enum value is provided' do
+      it 'raises a NameError' do
+        expect {
+          user.roles <<= :gender
+        }.to raise_error EnumSet::EnumError
+      end
+    end
   end
 
   it 'scopes by enum value' do
