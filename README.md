@@ -10,11 +10,11 @@ as well as an array setter.
 
 * With bundler:
 
-      $ gem 'enum_set'
+        $ gem 'enum_set'
 
 * Without bundler:
 
-      $ gem install enum_set
+        $ gem install enum_set
 
 ## Usage
 
