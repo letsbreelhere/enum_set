@@ -54,6 +54,12 @@ describe EnumSet do
       expect(UserWithHashRoles.king).to_not include user
     end
   end
+
+  describe 'class method getter' do
+    it 'returns a hash of names to bit values' do
+      expect(UserWithHashRoles.roles[:king]).to eq 16
+    end
+  end
 end
 
 context 'when the enum is defined with an array' do
@@ -104,5 +110,11 @@ context 'when the enum is defined with an array' do
   it 'scopes by enum value' do
     expect(UserWithArrayRoles.super_user).to include user
     expect(UserWithArrayRoles.admin).to_not include user
+  end
+
+  describe 'class method getter' do
+    it 'returns a hash of names to bit values' do
+      expect(UserWithArrayRoles.roles[:super_user]).to eq 2
+    end
   end
 end

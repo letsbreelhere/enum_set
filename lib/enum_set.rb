@@ -1,4 +1,5 @@
 require "enum_set/version"
+require 'pry'
 
 module EnumSet
   EnumError = Class.new(NameError)
@@ -57,6 +58,8 @@ module EnumSet
         define_method column do
           names_with_bits.keys.select { |name| send(:"#{name}?") }
         end
+
+        define_singleton_method(column.to_sym) { names_with_bits }
       end
     end
   end
