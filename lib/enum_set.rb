@@ -10,10 +10,15 @@ module EnumSet
   module ClassMethods
     def enum_set(enums)
       enums.each do |column, names|
-        names.map!(&:to_sym)
-        names_with_bits = Hash[
-          names.each_with_index.map { |name, i| [name, 1 << i] }
-        ]
+        if !names.is_a?(Hash)
+          names = Hash[
+            names.each_with_index.map do |name, i|
+              [name, 1 << i]
+            end
+          ]
+        end
+
+        names_with_bits = names.symbolize_keys
 
         define_method :"#{column}_bitfield" do
           self[column] || 0
@@ -50,7 +55,7 @@ module EnumSet
         end
 
         define_method column do
-          names.select { |name| send(:"#{name}?") }
+          names_with_bits.keys.select { |name| send(:"#{name}?") }
         end
       end
     end
