@@ -27,16 +27,21 @@ module EnumSet
           }
         end
 
-        define_method :"#{column}=" do |array|
-          new_value = send("#{column}_bitfield")
+        define_method :"#{column}=" do |values|
+          case values
+          when Array
+            new_value = send("#{column}_bitfield")
 
-          array.each do |val|
-            raise EnumError.new("Unrecognized value for #{column}: #{val.inspect}") unless names.include?(val)
-          end
+            values.each do |val|
+              raise EnumError.new("Unrecognized value for #{column}: #{val.inspect}") unless names.include?(val)
+            end
 
-          array.each do |val|
-            bit = names_with_bits.find { |name,_| name == val.to_sym }.last
-            new_value |= bit
+            values.each do |val|
+              bit = names_with_bits.find { |name,_| name == val.to_sym }.last
+              new_value |= bit
+            end
+          when Fixnum
+            new_value = values
           end
 
           self[column] = new_value

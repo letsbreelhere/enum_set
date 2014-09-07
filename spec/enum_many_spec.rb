@@ -35,6 +35,17 @@ describe EnumSet do
     end
   end
 
+  describe 'integer setters' do
+    let(:admin_and_basic_user) { 0b101 }
+
+    it 'lets enum values be set by integers' do
+      user.roles = admin_and_basic_user
+      expect(user).to be_admin
+      expect(user).to be_basic_user
+      expect(user).to_not be_super_user
+    end
+  end
+
   it 'scopes by enum value' do
     expect(User.super_user).to include user
     expect(User.admin).to_not include user
