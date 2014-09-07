@@ -37,7 +37,7 @@ describe EnumSet do
     end
 
     describe 'integer setters' do
-      let(:admin_and_basic_user) { 0b101 }
+      let(:admin_and_basic_user) { UserWithArrayRoles.roles[:admin] | UserWithArrayRoles.roles[:basic_user] }
 
       it 'lets enum values be set by integers' do
         user.roles = admin_and_basic_user
