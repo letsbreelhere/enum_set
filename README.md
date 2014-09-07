@@ -18,14 +18,30 @@ as well as an array setter.
 
 ## Usage
 
+### Array Specification
+
 ```ruby
 # user.rb
 class User < ActiveRecord::Base
   include EnumSet
   enum_set roles: [:admin, :super_user, :kaiser]
 end
+```
 
-# elsewhere.rb
+### Hash Specification
+
+```ruby
+# user.rb
+class User < ActiveRecord::Base
+  include EnumSet
+  # N.B.: values must be powers of 2
+  enum_set roles: { admin: 1, super_user: 4, kaiser: 256 }
+end
+```
+
+### Elsewhere
+
+```ruby
 user = User.create(roles: [:super_user])
 
 user.super_user? # => true
