@@ -11,7 +11,9 @@ module EnumSet
     def enum_set(enums)
       enums.each do |column, names|
         names.map!(&:to_sym)
-        names_with_bits = names.each_with_index.map { |name, i| [name, 1 << i] }
+        names_with_bits = Hash[
+          names.each_with_index.map { |name, i| [name, 1 << i] }
+        ]
 
         define_method :"#{column}_bitfield" do
           self[column] || 0
@@ -30,15 +32,14 @@ module EnumSet
         define_method :"#{column}=" do |values|
           case values
           when Array
-            new_value = send("#{column}_bitfield")
-
             values.each do |val|
               raise EnumError.new("Unrecognized value for #{column}: #{val.inspect}") unless names.include?(val)
             end
 
-            values.each do |val|
-              bit = names_with_bits.find { |name,_| name == val.to_sym }.last
-              new_value |= bit
+            current_value = send("#{column}_bitfield")
+
+            new_value = values.reduce(current_value) do |acc, val|
+              acc | names_with_bits[val.to_sym]
             end
           when Fixnum
             new_value = values
