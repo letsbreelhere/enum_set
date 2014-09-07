@@ -13,3 +13,6 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer :roles
   end
 end
+
+class User < ActiveRecord::Base
+end
